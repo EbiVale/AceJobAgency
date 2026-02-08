@@ -1,0 +1,148 @@
+/* Ace Job Agency - Minimal Professional Styling */
+/* Keeps exact same layout and functionality, just adds polish */
+
+/* Body and Base */
+body {
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Cards - subtle shadow improvement */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    border-radius: 8px 8px 0 0 !important;
+    border-bottom: none;
+}
+
+/* Form Controls - subtle border improvement */
+.form-control,
+.form-select {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Buttons - keep exactly as is but add subtle hover */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+    transition: all 0.2s ease;
+}
+
+.btn-warning:hover,
+.btn-light:hover {
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* Labels - make slightly bolder */
+.form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Alerts - keep as is, maybe subtle rounded corners */
+.alert {
+    border-radius: 6px;
+    border: none;
+}
+
+/* Tables - subtle styling */
+.table-borderless td {
+    padding: 0.5rem 0;
+}
+
+.table-borderless strong {
+    font-weight: 600;
+}
+
+/* Navbar - keep dark but add subtle shadow */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer - keep minimal */
+.footer {
+    background-color: white;
+    margin-top: 3rem;
+}
+
+/* Badge - keep as is */
+.badge {
+    font-weight: 500;
+    padding: 0.4em 0.6em;
+}
+
+/* Small text - keep readable */
+small,
+.small {
+    font-size: 0.875rem;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Remove underline from navbar links */
+.nav-link:hover {
+    text-decoration: none;
+}
+
+/* Validation text */
+.text-danger {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.text-success,
+.text-warning {
+    font-size: 0.875rem;
+}
+
+/* Card title */
+.card-title {
+    font-weight: 600;
+    color: #212529;
+}
+
+/* Form text muted */
+.form-text {
+    font-size: 0.875rem;
+}
+
+/* Container spacing */
+.container {
+    max-width: 1140px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+}

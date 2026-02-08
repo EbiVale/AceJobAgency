@@ -1,0 +1,209 @@
+@model AceJobAgency.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Ace Job Agency - Member Registration</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Register" method="post" enctype="multipart/form-data" id="registerForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label">First Name *</label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label">Last Name *</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Gender" class="form-label">Gender *</label>
+                                <select asp-for="Gender" class="form-control">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NRIC" class="form-label">NRIC *</label>
+                                <input asp-for="NRIC" class="form-control" placeholder="e.g., S1234567A" />
+                                <span asp-validation-for="NRIC" class="text-danger"></span>
+                                <small class="form-text text-muted">Format: S/T/F/G followed by 7 digits and a letter</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email Address *</label>
+                            <input asp-for="Email" class="form-control" type="email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Password" class="form-label">Password *</label>
+                                <input asp-for="Password" class="form-control" type="password" id="password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                                <div id="passwordStrength" class="mt-2"></div>
+                                <small class="form-text text-muted">
+                                    Must be at least 12 characters with uppercase, lowercase, number, and special character
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ConfirmPassword" class="form-label">Confirm Password *</label>
+                                <input asp-for="ConfirmPassword" class="form-control" type="password" id="confirmPassword" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                <div id="passwordMatch" class="mt-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DateOfBirth" class="form-label">Date of Birth *</label>
+                            <input asp-for="DateOfBirth" class="form-control" type="date" />
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Resume" class="form-label">Resume (PDF or DOCX) *</label>
+                            <input asp-for="Resume" class="form-control" type="file" accept=".pdf,.docx" id="resumeFile" />
+                            <span asp-validation-for="Resume" class="text-danger"></span>
+                            <small class="form-text text-muted">Only .pdf and .docx files allowed (Max 5MB)</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="WhoAmI" class="form-label">Who Am I</label>
+                            <textarea asp-for="WhoAmI" class="form-control" rows="4" placeholder="Tell us about yourself..."></textarea>
+                            <span asp-validation-for="WhoAmI" class="text-danger"></span>
+                        </div>
+
+                        <input type="hidden" asp-for="RecaptchaToken" id="recaptchaToken" />
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <p>Already have an account? <a asp-action="Login">Login here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lfi5WMsAAAAADBnUs3yH4GYjB3CgzQY-7TnhPqG"></script>
+    <script>
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function () {
+            const password = this.value;
+            const strengthDiv = document.getElementById('passwordStrength');
+
+            let strength = 0;
+            let feedback = [];
+
+            if (password.length >= 12) strength++;
+            else feedback.push('At least 12 characters');
+
+            if (/[a-z]/.test(password)) strength++;
+            else feedback.push('Lowercase letter');
+
+            if (/[A-Z]/.test(password)) strength++;
+            else feedback.push('Uppercase letter');
+
+            if (/\d/.test(password)) strength++;
+            else feedback.push('Number');
+
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+            else feedback.push('Special character');
+
+            let strengthText = '';
+            let strengthClass = '';
+
+            if (strength === 5) {
+                strengthText = '✓ Strong password';
+                strengthClass = 'text-success';
+            } else if (strength >= 3) {
+                strengthText = '⚠ Medium password - Missing: ' + feedback.join(', ');
+                strengthClass = 'text-warning';
+            } else {
+                strengthText = '✗ Weak password - Missing: ' + feedback.join(', ');
+                strengthClass = 'text-danger';
+            }
+
+            strengthDiv.innerHTML = `<small class="${strengthClass}">${strengthText}</small>`;
+        });
+
+        // Password match checker
+        document.getElementById('confirmPassword').addEventListener('input', function () {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const matchDiv = document.getElementById('passwordMatch');
+
+            if (confirmPassword.length > 0) {
+                if (password === confirmPassword) {
+                    matchDiv.innerHTML = '<small class="text-success">✓ Passwords match</small>';
+                } else {
+                    matchDiv.innerHTML = '<small class="text-danger">✗ Passwords do not match</small>';
+                }
+            } else {
+                matchDiv.innerHTML = '';
+            }
+        });
+
+        // File validation
+        document.getElementById('resumeFile').addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                const maxSize = 5 * 1024 * 1024; // 5MB
+
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Only PDF and DOCX files are allowed');
+                    this.value = '';
+                    return;
+                }
+
+                if (file.size > maxSize) {
+                    alert('File size cannot exceed 5MB');
+                    this.value = '';
+                    return;
+                }
+            }
+        });
+
+        // Google reCAPTCHA v3
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6Lfi5WMsAAAAADBnUs3yH4GYjB3CgzQY-7TnhPqG', { action: 'register' }).then(function (token) {
+                    document.getElementById('recaptchaToken').value = token;
+                    document.getElementById('registerForm').submit();
+                });
+            });
+        });
+
+        // XSS Prevention
+        document.querySelectorAll('input[type="text"], textarea').forEach(function (element) {
+            element.addEventListener('input', function () {
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
